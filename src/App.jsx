@@ -18,6 +18,7 @@ class App extends React.Component {
       cardTrunfo: false,
       /* hasTrunfo: false, */
       isSaveButtonDisabled: true,
+      cards: [],
     };
   }
 
@@ -58,8 +59,30 @@ class App extends React.Component {
 
   // Função para salvar a carta no array de cartas
   onSaveButtonClick = (event) => {
-    console.log(event);
-  }
+    event.preventDefault();
+    const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
+      cardImage, cardRare, cardTrunfo } = this.state;
+    const obj = { cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo };
+    this.setState((previousState) => ({
+      cards: [...previousState.cards, obj],
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
+      cardImage: '',
+      cardRare: 'normal',
+      cardTrunfo: false,
+      isSaveButtonDisabled: true,
+    }));
+  };
 
   // Função para atribuir o valor para o state relacionado linkando o target name com o target value(onteudo do course)
   onInputChange = ({ target }) => {
