@@ -8,9 +8,9 @@ class Form extends Component {
       cardImage, cardRare, cardTrunfo, /* hasTrunfo, */ isSaveButtonDisabled,
       onInputChange, onSaveButtonClick } = this.props;
     return (
-      <div id="container">
+      <div className="container-form">
         <h1>Adicionar nova carta</h1>
-        <form className="container-form" id="form" action="">
+        <form id="form" action="">
           <label htmlFor="cardName">
             Nome
             <input
@@ -33,7 +33,7 @@ class Form extends Component {
               rows="10"
               data-testid="description-input"
             >
-              texto
+              { cardDescription }
             </textarea>
           </label>
           <label htmlFor="atributo1">
