@@ -103,9 +103,19 @@ class Form extends Component {
               value={ cardTrunfo }
               type="checkbox"
             />)}
-            { hasTrunfo && ('Super Trunfo')}
-            { !hasTrunfo && ('Você já tem um Super Trunfo em seu baralho')}
+            {hasTrunfo && ('Super Trunfo')}
           </label>
+          { !hasTrunfo && (
+            <p
+              name="cardTrunfo"
+              data-testid="trunfo-input"
+              onChange={ onInputChange }
+              checked={ cardTrunfo }
+              value={ cardTrunfo }
+            >
+              Você já tem um Super Trunfo em seu baralho
+            </p>
+          )}
           <button
             name="onSaveButtonClick"
             onClick={ onSaveButtonClick }

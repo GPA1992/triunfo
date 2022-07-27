@@ -39,6 +39,13 @@ class App extends React.Component {
     return true;
   }
 
+  /*   // função para verificar se já existe uma carta super trunfo
+    hasTrunfo = () => {
+      const { cards } = this.state;
+      const checkIfHaveCardTrunfo = cards.every((cartas) => cartas.cardTrunfo === false);
+      this.setState({ hasTrunfo: checkIfHaveCardTrunfo });
+    } */
+
   // Função para validar se todos os campos do form estão devidamente preenchidos.
   validateSubmit = () => {
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
@@ -55,14 +62,9 @@ class App extends React.Component {
     ];
 
     const anyError = errors.every((erro) => erro === false);
-    this.setState({ isSaveButtonDisabled: !anyError });
-  }
-
-  // função para verificar se já existe uma carta super trunfo
-  hasTrunfo = () => {
-    const { cards } = this.state;
-    const checkIfHaveCardTrunfo = cards.every((cartas) => cartas.cardTrunfo === false);
-    this.setState({ hasTrunfo: checkIfHaveCardTrunfo });
+    this.setState({
+      isSaveButtonDisabled: !anyError,
+    });
   }
 
   // Função para salvar a carta no array de cartas
@@ -88,6 +90,7 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
+      hasTrunfo: event.target.checked,
       isSaveButtonDisabled: true,
     }));
   };
@@ -96,7 +99,6 @@ class App extends React.Component {
   onInputChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.hasTrunfo();
     this.setState({
       [name]: value,
     }, this.validateSubmit);
