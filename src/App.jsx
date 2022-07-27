@@ -19,6 +19,7 @@ class App extends React.Component {
       hasTrunfo: true,
       isSaveButtonDisabled: true,
       cards: [],
+      disabledOn: true,
     };
   }
 
@@ -60,7 +61,6 @@ class App extends React.Component {
   // função para verificar se já existe uma carta super trunfo
   hasTrunfo = () => {
     const { cards } = this.state;
-    console.log(cards);
     const checkIfHaveCardTrunfo = cards.every((cartas) => cartas.cardTrunfo === false);
     this.setState({ hasTrunfo: checkIfHaveCardTrunfo });
   }
@@ -102,37 +102,70 @@ class App extends React.Component {
     }, this.validateSubmit);
   }
 
+  // Função para matar uma carta
+  killCard = ({ target }) => {
+    const { cards } = this.state;
+    const newArray = cards.filter((cartas) => cartas.cardName !== target.name);
+    const checkIfHaveCardTrunfo = newArray.every((cartas) => cartas.cardTrunfo === false);
+    this.setState({
+      cards: newArray,
+      hasTrunfo: checkIfHaveCardTrunfo,
+    });
+  }
+
   render() {
     // Estado atual
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
       cardImage, cardRare, cardTrunfo,
-      hasTrunfo, isSaveButtonDisabled } = this.state;
+      hasTrunfo, isSaveButtonDisabled, cards, disabledOn } = this.state;
     return (
       <div>
-        <Form
-          cardName={ cardName }
-          onInputChange={ this.onInputChange }
-          cardImage={ cardImage }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
-          isSaveButtonDisabled={ isSaveButtonDisabled }
-          onSaveButtonClick={ this.onSaveButtonClick }
-          hasTrunfo={ hasTrunfo }
-        />
-        <Card
-          cardName={ cardName }
-          cardImage={ cardImage }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
-        />
+        <div>
+
+          <Form
+            cardName={ cardName }
+            onInputChange={ this.onInputChange }
+            cardImage={ cardImage }
+            cardDescription={ cardDescription }
+            cardAttr1={ cardAttr1 }
+            cardAttr2={ cardAttr2 }
+            cardAttr3={ cardAttr3 }
+            cardRare={ cardRare }
+            cardTrunfo={ cardTrunfo }
+            isSaveButtonDisabled={ isSaveButtonDisabled }
+            onSaveButtonClick={ this.onSaveButtonClick }
+            hasTrunfo={ hasTrunfo }
+          />
+          <Card
+            cardName={ cardName }
+            cardImage={ cardImage }
+            cardDescription={ cardDescription }
+            cardAttr1={ cardAttr1 }
+            cardAttr2={ cardAttr2 }
+            cardAttr3={ cardAttr3 }
+            cardRare={ cardRare }
+            cardTrunfo={ cardTrunfo }
+            disabledOn={ !disabledOn }
+            killCard={ this.killCard }
+          />
+        </div>
+        <div>
+          { cards.map((cartas) => (
+            <Card
+              key={ cartas.cardName }
+              cardName={ cartas.cardName }
+              cardImage={ cartas.cardImage }
+              cardDescription={ cartas.cardDescription }
+              cardAttr1={ cartas.cardAttr1 }
+              cardAttr2={ cartas.cardAttr2 }
+              cardAttr3={ cartas.cardAttr3 }
+              cardRare={ cartas.cardRare }
+              cardTrunfo={ cartas.cardTrunfo }
+              disabledOn={ disabledOn }
+              killCard={ this.killCard }
+            />
+          )) }
+        </div>
       </div>
     );
   }

@@ -5,7 +5,7 @@ import './Card.css';
 class Card extends Component {
   render() {
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
-      cardImage, cardRare, cardTrunfo } = this.props;
+      cardImage, cardRare, cardTrunfo, disabledOn, killCard } = this.props;
     return (
       <div className="card">
         <h1 data-testid="name-card">{ cardName }</h1>
@@ -29,6 +29,18 @@ class Card extends Component {
         </ul>
         <p data-testid="rare-card">{ cardRare }</p>
         {cardTrunfo && (<p data-testid="trunfo-card">Super Trunfo</p>)}
+        <div>
+          { disabledOn && (
+            <button
+              name={ cardName }
+              onClick={ killCard }
+              data-testid="delete-button"
+              type="button"
+            >
+              Excluir
+            </button>
+          )}
+        </div>
       </div>
     );
   }
@@ -42,5 +54,7 @@ Card.propTypes = {
   cardImage: PropTypes.string.isRequired,
   cardRare: PropTypes.string.isRequired,
   cardTrunfo: PropTypes.bool.isRequired,
+  disabledOn: PropTypes.bool.isRequired,
+  killCard: PropTypes.func.isRequired,
 };
 export default Card;
