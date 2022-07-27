@@ -16,7 +16,7 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
-      /* hasTrunfo: false, */
+      hasTrunfo: true,
       isSaveButtonDisabled: true,
       cards: [],
     };
@@ -57,6 +57,14 @@ class App extends React.Component {
     this.setState({ isSaveButtonDisabled: !anyError });
   }
 
+  // função para verificar se já existe uma carta super trunfo
+  hasTrunfo = () => {
+    const { cards } = this.state;
+    console.log(cards);
+    const checkIfHaveCardTrunfo = cards.every((cartas) => cartas.cardTrunfo === false);
+    this.setState({ hasTrunfo: checkIfHaveCardTrunfo });
+  }
+
   // Função para salvar a carta no array de cartas
   onSaveButtonClick = (event) => {
     event.preventDefault();
@@ -88,16 +96,17 @@ class App extends React.Component {
   onInputChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
+    this.hasTrunfo();
     this.setState({
       [name]: value,
-    }, () => this.validateSubmit());
+    }, this.validateSubmit);
   }
 
   render() {
     // Estado atual
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
       cardImage, cardRare, cardTrunfo,
-      /* hasTrunfo, */ isSaveButtonDisabled } = this.state;
+      hasTrunfo, isSaveButtonDisabled } = this.state;
     return (
       <div>
         <Form
@@ -112,6 +121,7 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           isSaveButtonDisabled={ isSaveButtonDisabled }
           onSaveButtonClick={ this.onSaveButtonClick }
+          hasTrunfo={ hasTrunfo }
         />
         <Card
           cardName={ cardName }

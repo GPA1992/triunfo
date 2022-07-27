@@ -5,7 +5,7 @@ import './Form.css';
 class Form extends Component {
   render() {
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
-      cardImage, cardRare, cardTrunfo, /* hasTrunfo, */ isSaveButtonDisabled,
+      cardImage, cardRare, cardTrunfo, hasTrunfo, isSaveButtonDisabled,
       onInputChange, onSaveButtonClick } = this.props;
     return (
       <div className="container-form">
@@ -95,15 +95,16 @@ class Form extends Component {
             </select>
           </label>
           <label className="trunfo" id="trunfo" htmlFor="trunfo">
-            <input
+            { hasTrunfo && (<input
               name="cardTrunfo"
               data-testid="trunfo-input"
               onChange={ onInputChange }
               checked={ cardTrunfo }
               value={ cardTrunfo }
               type="checkbox"
-            />
-            Super Trunfo
+            />)}
+            { hasTrunfo && ('Super Trunfo')}
+            { !hasTrunfo && ('Você já tem um Super Trunfo em seu baralho')}
           </label>
           <button
             name="onSaveButtonClick"
@@ -129,7 +130,7 @@ Form.propTypes = {
   cardImage: PropTypes.string.isRequired,
   cardRare: PropTypes.string.isRequired,
   cardTrunfo: PropTypes.bool.isRequired,
-  /* hasTrunfo: PropTypes.bool.isRequired, */
+  hasTrunfo: PropTypes.bool.isRequired,
   isSaveButtonDisabled: PropTypes.bool.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onSaveButtonClick: PropTypes.func.isRequired,
