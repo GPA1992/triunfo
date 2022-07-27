@@ -39,13 +39,6 @@ class App extends React.Component {
     return true;
   }
 
-  // função para verificar se já existe uma carta super trunfo
-  /*  hasTrunfo = () => {
-    const { cards } = this.state;
-    const checkIfHaveCardTrunfo = cards.every((cartas) => cartas.cardTrunfo === false);
-    return checkIfHaveCardTrunfo;
-  } */
-
   // Função para validar se todos os campos do form estão devidamente preenchidos.
   validateSubmit = () => {
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
@@ -100,12 +93,9 @@ class App extends React.Component {
   // Função para atribuir o valor para o state relacionado linkando o target name com o target value(onteudo do course)
   onInputChange = ({ target }) => {
     const { name } = target;
-    /* const { cards } = this.state; */
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    /* const checkIfHaveCardTrunfo = cards.some((cartas) => cartas.cardTrunfo === true); */
     this.setState({
       [name]: value,
-      /* hasTrunfo: !checkIfHaveCardTrunfo, */
     }, this.validateSubmit);
   }
 
