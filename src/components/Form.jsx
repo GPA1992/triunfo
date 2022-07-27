@@ -94,7 +94,7 @@ class Form extends Component {
               <option value="muito raro">Muito Raro</option>
             </select>
           </label>
-          { hasTrunfo && (
+          { !hasTrunfo && (
             <label className="trunfo" id="trunfo" htmlFor="trunfo">
               <input
                 name="cardTrunfo"
@@ -107,7 +107,7 @@ class Form extends Component {
               Super Trunfo
             </label>
           )}
-          { !hasTrunfo && (
+          { hasTrunfo && (
             <p
               name="cardTrunfo"
               data-testid="trunfo-input"

@@ -16,7 +16,7 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
-      hasTrunfo: true,
+      hasTrunfo: false,
       isSaveButtonDisabled: true,
       cards: [],
       disabledOn: true,
@@ -71,7 +71,7 @@ class App extends React.Component {
   onSaveButtonClick = (event) => {
     event.preventDefault();
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
-      cardImage, cardRare, cardTrunfo, cards } = this.state;
+      cardImage, cardRare, cardTrunfo, hasTrunfo } = this.state;
     const obj = { cardName,
       cardDescription,
       cardAttr1,
@@ -80,8 +80,8 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo };
-    const checkIfHaveCardTrunfo = cards.some((cartas) => cartas.cardTrunfo === true);
-    const trunfo = cards.length > 0 && checkIfHaveCardTrunfo ? false : !cardTrunfo;
+    let checkIfHaveCardTrunfo = false;
+    if (cardTrunfo || hasTrunfo) checkIfHaveCardTrunfo = true;
     this.setState((previousState) => ({
       cards: [...previousState.cards, obj],
       cardName: '',
@@ -92,7 +92,7 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
-      hasTrunfo: trunfo,
+      hasTrunfo: checkIfHaveCardTrunfo,
       isSaveButtonDisabled: true,
     }));
   };
@@ -100,12 +100,12 @@ class App extends React.Component {
   // Função para atribuir o valor para o state relacionado linkando o target name com o target value(onteudo do course)
   onInputChange = ({ target }) => {
     const { name } = target;
-    const { cards } = this.state;
+    /* const { cards } = this.state; */
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const checkIfHaveCardTrunfo = cards.some((cartas) => cartas.cardTrunfo === true);
+    /* const checkIfHaveCardTrunfo = cards.some((cartas) => cartas.cardTrunfo === true); */
     this.setState({
       [name]: value,
-      hasTrunfo: !checkIfHaveCardTrunfo,
+      /* hasTrunfo: !checkIfHaveCardTrunfo, */
     }, this.validateSubmit);
   }
 
@@ -113,7 +113,7 @@ class App extends React.Component {
   killCard = ({ target }) => {
     const { cards } = this.state;
     const newArray = cards.filter((cartas) => cartas.cardName !== target.name);
-    const checkIfHaveCardTrunfo = newArray.every((cartas) => cartas.cardTrunfo === false);
+    const checkIfHaveCardTrunfo = newArray.some((cartas) => cartas.cardTrunfo === true);
     this.setState({
       cards: newArray,
       hasTrunfo: checkIfHaveCardTrunfo,
