@@ -39,12 +39,12 @@ class App extends React.Component {
     return true;
   }
 
-  /*   // função para verificar se já existe uma carta super trunfo
-    hasTrunfo = () => {
-      const { cards } = this.state;
-      const checkIfHaveCardTrunfo = cards.every((cartas) => cartas.cardTrunfo === false);
-      this.setState({ hasTrunfo: checkIfHaveCardTrunfo });
-    } */
+  // função para verificar se já existe uma carta super trunfo
+  /*  hasTrunfo = () => {
+    const { cards } = this.state;
+    const checkIfHaveCardTrunfo = cards.every((cartas) => cartas.cardTrunfo === false);
+    return checkIfHaveCardTrunfo;
+  } */
 
   // Função para validar se todos os campos do form estão devidamente preenchidos.
   validateSubmit = () => {
@@ -71,7 +71,7 @@ class App extends React.Component {
   onSaveButtonClick = (event) => {
     event.preventDefault();
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
-      cardImage, cardRare, cardTrunfo } = this.state;
+      cardImage, cardRare, cardTrunfo, cards } = this.state;
     const obj = { cardName,
       cardDescription,
       cardAttr1,
@@ -80,6 +80,8 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo };
+    const checkIfHaveCardTrunfo = cards.some((cartas) => cartas.cardTrunfo === true);
+    const trunfo = cards.length > 0 && checkIfHaveCardTrunfo ? false : !cardTrunfo;
     this.setState((previousState) => ({
       cards: [...previousState.cards, obj],
       cardName: '',
@@ -90,7 +92,7 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
-      hasTrunfo: event.target.checked,
+      hasTrunfo: trunfo,
       isSaveButtonDisabled: true,
     }));
   };
@@ -98,9 +100,12 @@ class App extends React.Component {
   // Função para atribuir o valor para o state relacionado linkando o target name com o target value(onteudo do course)
   onInputChange = ({ target }) => {
     const { name } = target;
+    const { cards } = this.state;
     const value = target.type === 'checkbox' ? target.checked : target.value;
+    const checkIfHaveCardTrunfo = cards.some((cartas) => cartas.cardTrunfo === true);
     this.setState({
       [name]: value,
+      hasTrunfo: !checkIfHaveCardTrunfo,
     }, this.validateSubmit);
   }
 
