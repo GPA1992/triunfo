@@ -1,0 +1,50 @@
+.createdCard {
+  align-items: center;
+  background-color: aquamarine;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  height: 300px;
+  width: 250px;
+}
+
+.image-card {
+  height: 150px;
+  width: 90%;
+}
+
+.createdCard li {
+  font-size: 13px;
+}
+
+.allText {
+  align-content: center;
+  background-color: antiquewhite;
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+  margin: 2px;
+  width: 90%;
+}
+
+.rareTrunfo {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 2px;
+  width: 50%;
+}
+
+.superTrunfo {
+  align-items: center;
+  background-color: green;
+  border-radius: 100%;
+  color: blueviolet;
+  display: flex;
+  font-size: 10px;
+  height: 60px;
+  justify-content: center;
+  width: 60px;
+}

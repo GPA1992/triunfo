@@ -1,6 +1,9 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import CreatedCard from './components/CreatedCard';
+import Filter from './components/Filter';
+/* import Cartx from './components/Cartas'; */
 import './App.css';
 
 class App extends React.Component {
@@ -20,6 +23,7 @@ class App extends React.Component {
       isSaveButtonDisabled: true,
       cards: [],
       disabledOn: true,
+      filterName: '',
     };
   }
 
@@ -58,6 +62,16 @@ class App extends React.Component {
     this.setState({
       isSaveButtonDisabled: !anyError,
     });
+  }
+
+  // Função para salvar as cartas no storage
+  useStorage = () => {
+    const { cards } = this.state;
+    localStorage.setItem('cartas', cards);
+    const storage = localStorage.getItem('cartas');
+    this.setState((previousState) => ({
+      cards: [...previousState, storage],
+    }));
   }
 
   // Função para salvar a carta no array de cartas
@@ -110,15 +124,22 @@ class App extends React.Component {
     });
   }
 
-  render() {
-    // Estado atual
-    const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
-      cardImage, cardRare, cardTrunfo,
-      hasTrunfo, isSaveButtonDisabled, cards, disabledOn } = this.state;
-    return (
-      <div>
-        <div>
+  // Função para filtrar as cartas pelo nome.
+filterName = (event) => {
+  this.setState({
+    filterName: event.target.value,
+  });
+};
 
+render() {
+  const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
+    cardImage, cardRare, cardTrunfo,
+    hasTrunfo, isSaveButtonDisabled, cards, disabledOn, filterName } = this.state;
+  const filterWhitName = cards.filter((card) => card.cardName.includes(filterName));
+  return (
+    <div className="main">
+      <div className="create">
+        <div>
           <Form
             cardName={ cardName }
             onInputChange={ this.onInputChange }
@@ -133,6 +154,8 @@ class App extends React.Component {
             onSaveButtonClick={ this.onSaveButtonClick }
             hasTrunfo={ hasTrunfo }
           />
+        </div>
+        <div>
           <Card
             cardName={ cardName }
             cardImage={ cardImage }
@@ -146,26 +169,32 @@ class App extends React.Component {
             killCard={ this.killCard }
           />
         </div>
-        <div>
-          { cards.map((cartas) => (
-            <Card
-              key={ cartas.cardName }
-              cardName={ cartas.cardName }
-              cardImage={ cartas.cardImage }
-              cardDescription={ cartas.cardDescription }
-              cardAttr1={ cartas.cardAttr1 }
-              cardAttr2={ cartas.cardAttr2 }
-              cardAttr3={ cartas.cardAttr3 }
-              cardRare={ cartas.cardRare }
-              cardTrunfo={ cartas.cardTrunfo }
-              disabledOn={ disabledOn }
-              killCard={ this.killCard }
-            />
-          )) }
-        </div>
       </div>
-    );
-  }
+      <div>
+        <Filter
+          filterName={ this.filterName }
+        />
+      </div>
+      <div>
+        { filterWhitName.map((cartas) => (
+          <CreatedCard
+            key={ cartas.cardName }
+            cardName={ cartas.cardName }
+            cardImage={ cartas.cardImage }
+            cardDescription={ cartas.cardDescription }
+            cardAttr1={ cartas.cardAttr1 }
+            cardAttr2={ cartas.cardAttr2 }
+            cardAttr3={ cartas.cardAttr3 }
+            cardRare={ cartas.cardRare }
+            cardTrunfo={ cartas.cardTrunfo }
+            disabledOn={ disabledOn }
+            killCard={ this.killCard }
+          />
+        )) }
+      </div>
+    </div>
+  );
+}
 }
 
 export default App;

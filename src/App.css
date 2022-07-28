@@ -1,3 +1,12 @@
-div {
+.main {
   display: flex;
+  margin: 5px;
+}
+
+.create {
+  display: flex;
+  flex-direction: wrap;
+  height: 750px;
+  justify-content: space-around;
+  width: 55%;
 }
