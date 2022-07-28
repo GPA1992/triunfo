@@ -25,6 +25,7 @@ class App extends React.Component {
       disabledOn: true,
       filterName: '',
       filterRarity: 'todas',
+      FilterSuperTrunfo: false,
     };
   }
 
@@ -123,7 +124,7 @@ changeFilterName = ({ target }) => {
   });
 };
 
-// Função para filtrar as cartas pelo nome.
+// Função para filtrar as cartas pela raridade.
 changeFilterRare = ({ target }) => {
   const { value } = target;
   this.setState({
@@ -131,17 +132,35 @@ changeFilterRare = ({ target }) => {
   });
 };
 
+// Função para filtrar a carta super trunfo.
+changeFilterTrunfo = ({ target }) => {
+  const { checked } = target;
+  this.setState({
+    FilterSuperTrunfo: checked,
+  });
+};
+
 render() {
   const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
     cardImage, cardRare, cardTrunfo,
     hasTrunfo, isSaveButtonDisabled, cards,
-    disabledOn, filterName, filterRarity } = this.state;
+    disabledOn, filterName, filterRarity, FilterSuperTrunfo } = this.state;
+
+  // Lógica para filtrar as cartas pela raridade, se for selecionado todas, devera ser retornado todas as cartas.
   const filterWhitRarity = cards.filter((card) => {
     if (filterRarity === 'todas') return true;
     return card.cardRare === filterRarity;
   });
-  console.log(filterWhitRarity);
-  const filterWhitName = filterWhitRarity.filter((c) => c.cardName.includes(filterName));
+
+  // Lógica para filtrar as cartas pelo nome, usando o como paramentro o array gerado pela função que filtra pela raride.
+  const filterWhitName = filterWhitRarity.filter((carta) => carta
+    .cardName.includes(filterName));
+
+  // Lógica para filtrar apenas a carta super trunfo quando o checkbox eestiver marcado.
+  const filterSuperTrunfo = filterWhitName.filter((carta) => {
+    if (FilterSuperTrunfo === true) return carta.cardTrunfo === true;
+    return true;
+  });
   return (
     <div className="main">
       <div className="create">
@@ -180,10 +199,12 @@ render() {
         <Filter
           filterName={ this.changeFilterName }
           filterRarity={ this.changeFilterRare }
+          filterSuperTrunfo={ this.changeFilterTrunfo }
+          trunfoChecked={ FilterSuperTrunfo }
         />
       </div>
       <div>
-        { filterWhitName.map((cartas) => (
+        { filterSuperTrunfo.map((cartas) => (
           <CreatedCard
             key={ cartas.cardName }
             cardName={ cartas.cardName }

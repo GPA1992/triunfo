@@ -4,12 +4,13 @@ import './Filter.css';
 
 class Filter extends Component {
   render() {
-    const { filterName, filterRarity } = this.props;
+    const { filterName, filterRarity, filterSuperTrunfo, trunfoChecked } = this.props;
     return (
       <div>
         <label htmlFor="name-filter">
           Nome da Carta
           <input
+            disabled={ trunfoChecked }
             onChange={ filterName }
             name="name-filter"
             type="text"
@@ -20,6 +21,7 @@ class Filter extends Component {
         <label htmlFor="rare-filter">
           Raridade
           <select
+            disabled={ trunfoChecked }
             name="rare-filter"
             id="rare-filter"
             data-testid="rare-filter"
@@ -33,6 +35,7 @@ class Filter extends Component {
         </label>
         <label className="trunfo-filter" id="trunfo-filter" htmlFor="trunfo-filter">
           <input
+            onClick={ filterSuperTrunfo }
             name="trunfo-filter"
             data-testid="trunfo-filter"
             type="checkbox"
@@ -46,5 +49,7 @@ class Filter extends Component {
 Filter.propTypes = {
   filterName: PropTypes.func.isRequired,
   filterRarity: PropTypes.func.isRequired,
+  filterSuperTrunfo: PropTypes.func.isRequired,
+  trunfoChecked: PropTypes.bool.isRequired,
 };
 export default Filter;
