@@ -4,7 +4,7 @@ import './Filter.css';
 
 class Filter extends Component {
   render() {
-    const { filterName } = this.props;
+    const { filterName, filterRarity } = this.props;
     return (
       <div>
         <label htmlFor="name-filter">
@@ -23,6 +23,7 @@ class Filter extends Component {
             name="rare-filter"
             id="rare-filter"
             data-testid="rare-filter"
+            onChange={ filterRarity }
           >
             <option value="todas">Todas</option>
             <option value="normal">Normal</option>
@@ -44,5 +45,6 @@ class Filter extends Component {
 }
 Filter.propTypes = {
   filterName: PropTypes.func.isRequired,
+  filterRarity: PropTypes.func.isRequired,
 };
 export default Filter;

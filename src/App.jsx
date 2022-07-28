@@ -24,6 +24,7 @@ class App extends React.Component {
       cards: [],
       disabledOn: true,
       filterName: '',
+      filterRarity: 'todas',
     };
   }
 
@@ -62,16 +63,6 @@ class App extends React.Component {
     this.setState({
       isSaveButtonDisabled: !anyError,
     });
-  }
-
-  // Função para salvar as cartas no storage
-  useStorage = () => {
-    const { cards } = this.state;
-    localStorage.setItem('cartas', cards);
-    const storage = localStorage.getItem('cartas');
-    this.setState((previousState) => ({
-      cards: [...previousState, storage],
-    }));
   }
 
   // Função para salvar a carta no array de cartas
@@ -125,17 +116,32 @@ class App extends React.Component {
   }
 
   // Função para filtrar as cartas pelo nome.
-filterName = (event) => {
+changeFilterName = ({ target }) => {
+  const { value } = target;
   this.setState({
-    filterName: event.target.value,
+    filterName: value,
+  });
+};
+
+// Função para filtrar as cartas pelo nome.
+changeFilterRare = ({ target }) => {
+  const { value } = target;
+  this.setState({
+    filterRarity: value,
   });
 };
 
 render() {
   const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
     cardImage, cardRare, cardTrunfo,
-    hasTrunfo, isSaveButtonDisabled, cards, disabledOn, filterName } = this.state;
-  const filterWhitName = cards.filter((card) => card.cardName.includes(filterName));
+    hasTrunfo, isSaveButtonDisabled, cards,
+    disabledOn, filterName, filterRarity } = this.state;
+  const filterWhitRarity = cards.filter((card) => {
+    if (filterRarity === 'todas') return true;
+    return card.cardRare === filterRarity;
+  });
+  console.log(filterWhitRarity);
+  const filterWhitName = filterWhitRarity.filter((c) => c.cardName.includes(filterName));
   return (
     <div className="main">
       <div className="create">
@@ -172,7 +178,8 @@ render() {
       </div>
       <div>
         <Filter
-          filterName={ this.filterName }
+          filterName={ this.changeFilterName }
+          filterRarity={ this.changeFilterRare }
         />
       </div>
       <div>
